@@ -23,12 +23,13 @@ class ELDService:
         log_sheets = []
         current_log = self._initialize_log_sheet(current_time.date())
         
-        # Initial on-duty status
+        # Initial on-duty status the driver is going to pick up the load
+
         current_status = "ON"
         current_log['events'].append({
             "time": current_time.strftime("%H:%M"),
             "status": current_status,
-            "location": trip_details['to_pickup']['origin'] if 'to_pickup' in trip_details else "Unknown"
+            "location": trip_details['to_pickup']['features'][0]['geometry']['coordinates'][0] if 'to_pickup' in trip_details else "Unknown"
         })
         
         # Simulate the trip hour by hour
@@ -123,7 +124,7 @@ class ELDService:
         current_log['events'].append({
             "time": current_time.strftime("%H:%M"),
             "status": current_status,
-            "location": trip_details['pickup_to_dropoff']['origin'] if 'pickup_to_dropoff' in trip_details else "Unknown",
+            "location": trip_details['pickup_to_dropoff']['features'][0]['geometry']['coordinates'][0] if 'pickup_to_dropoff' in trip_details else "Unknown",
             "remarks": "Pickup location"
         })
         
@@ -133,7 +134,7 @@ class ELDService:
         current_log['events'].append({
             "time": current_time.strftime("%H:%M"),
             "status": current_status,
-            "location": trip_details['pickup_to_dropoff']['origin'] if 'pickup_to_dropoff' in trip_details else "Unknown",
+            "location": trip_details['pickup_to_dropoff']['features'][0]['geometry']['coordinates'][0] if 'pickup_to_dropoff' in trip_details else "Unknown",
         })
         
         # Add the final dropoff
@@ -143,7 +144,7 @@ class ELDService:
         current_log['events'].append({
             "time": current_time.strftime("%H:%M"),
             "status": current_status,
-            "location": trip_details['pickup_to_dropoff']['destination'] if 'pickup_to_dropoff' in trip_details else "Unknown",
+            "location": trip_details['pickup_to_dropoff']['features'][0]['geometry']['coordinates'][-1] if 'pickup_to_dropoff' in trip_details else "Unknown", # Get the last coordinate to represent final destination, wish there was an easier way
             "remarks": "Dropoff location"
         })
         

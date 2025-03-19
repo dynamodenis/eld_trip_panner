@@ -17,8 +17,8 @@ class TripPlannerView(APIView):
                 dropoff_location=serializer.validated_data['dropoff_location'],
                 current_cycle_used=serializer.validated_data['current_cycle_used']
             )
-            
-            # Calculate route and ELD logs
+            print(f"trip_data {trip_data}")
+            # Calculate route and the ditances and time required
             route_service = RouteService()
             trip_details = route_service.calculate_trip_details(
                 serializer.validated_data['current_location'],
@@ -26,8 +26,7 @@ class TripPlannerView(APIView):
                 serializer.validated_data['dropoff_location'],
                 serializer.validated_data['current_cycle_used']
             )
-            
-            # Generate ELD logs
+            # Generate trip logs
             eld_service = ELDService()
             log_sheets = eld_service.generate_log_sheets(
                 trip_details,

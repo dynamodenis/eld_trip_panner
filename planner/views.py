@@ -17,7 +17,7 @@ class TripPlannerView(APIView):
                 dropoff_location=serializer.validated_data['dropoff_location'],
                 current_cycle_used=serializer.validated_data['current_cycle_used']
             )
-            print(f"trip_data {trip_data}")
+            # print(f"trip_data {trip_data}")
             # Calculate route and the ditances and time required
             route_service = RouteService()
             trip_details = route_service.calculate_trip_details(

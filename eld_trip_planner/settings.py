@@ -33,7 +33,8 @@ ALLOWED_HOSTS = ["*"]
 # CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Allow your frontend to access Django
+    "http://localhost:5173",  # Allow your frontend to access Django locally
+    "https://eld-trip-planner-frontend.vercel.app/"  # Allow your frontend to access Django on Vercel
 ]
 
 # Application definition

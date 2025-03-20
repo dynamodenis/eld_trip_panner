@@ -2,12 +2,14 @@
 
 # Install pip if missing
 echo "Checking if pip is installed..."
+apt-get update && apt-get install -y sqlite3 libsqlite3-dev
 python3 -m ensurepip --default-pip
 
 # Install project dependencies
 echo "Building the project..."
 python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
+
 
 # Apply migrations
 echo "Make Migration..."

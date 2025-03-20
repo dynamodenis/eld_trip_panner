@@ -47,6 +47,9 @@ class RouteService:
         response = requests.get(self.base_url, params=params, headers=headers)
         if response.status_code == 200:
             return response.json()
+        else:
+            print(response.json())
+
         return None
 
     def calculate_trip_details(
@@ -78,13 +81,19 @@ class RouteService:
         """Calculate total distance of the routes in miles"""
         if not route1 or not route2:
             return 0
-
-        distance1 = (
-            route1["routes"][0]["summary"]["distance"] if "routes" in route1 else 0
-        )
-        distance2 = (
-            route2["routes"][0]["summary"]["distance"] if "routes" in route2 else 0
-        )
+        
+        distance1 = 0
+        distance2 = 0
+        
+        # Check if route1 has the expected structure
+        if "features" in route1 and route1["features"] and "properties" in route1["features"][0]:
+            if "summary" in route1["features"][0]["properties"]:
+                distance1 = route1["features"][0]["properties"]["summary"]["distance"]
+        
+        # Check if route2 has the expected structure
+        if "features" in route2 and route2["features"] and "properties" in route2["features"][0]:
+            if "summary" in route2["features"][0]["properties"]:
+                distance2 = route2["features"][0]["properties"]["summary"]["distance"]
 
         # Convert from meters to miles since US uses miles but we can use KM depending on location LOL
         return (distance1 + distance2) * 0.000621371
@@ -94,18 +103,24 @@ class RouteService:
         if not route1 or not route2:
             return 0
 
-        duration1 = (
-            route1["routes"][0]["summary"]["duration"] if "routes" in route1 else 0
-        )
-        duration2 = (
-            route2["routes"][0]["summary"]["duration"] if "routes" in route2 else 0
-        )
+        duration1 = 0
+        duration2 = 0
+        
+        # Check if route1 has the expected structure
+        if "features" in route1 and route1["features"] and "properties" in route1["features"][0]:
+            if "summary" in route1["features"][0]["properties"]:
+                duration1 = route1["features"][0]["properties"]["summary"]["duration"]
+        
+        # Check if route2 has the expected structure
+        if "features" in route2 and route2["features"] and "properties" in route2["features"][0]:
+            if "summary" in route2["features"][0]["properties"]:
+                duration2 = route2["features"][0]["properties"]["summary"]["duration"]
 
         # Convert from seconds to hours
         return (duration1 + duration2) / 3600
 
     def _calculate_required_stops(self, route1, route2, current_cycle_used):
-        """Calculate required stops based on HOS regulations"""
+        """Calculate required stops based on the total duration and distance of the routes"""
         total_duration = self._calculate_total_duration(route1, route2)
         total_distance = self._calculate_total_distance(route1, route2)
 
@@ -129,7 +144,8 @@ class RouteService:
         stops = []
 
         # This is a simplified calculation - a real implementation would need to map these to specific
-        # points along the route and calculate the exact timing
+        # points along the route and calculate the exact timing this should be marked as a TODO for future
+        # improvements since I might miss out on the interview submission deadline
 
         return {
             "thirty_min_breaks": thirty_min_breaks,

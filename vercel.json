@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
         {
-            "src": "backend/wsgi.py",
+            "src": "eld_trip_planner/wsgi.py",
             "use": "@vercel/python",
             "config": {
                 "maxLambdaSize": "15mb",
@@ -24,7 +24,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "backend/wsgi.py"
+            "dest": "eld_trip_planner/wsgi.py"
         }
     ]
 

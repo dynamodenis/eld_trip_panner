@@ -99,7 +99,7 @@ class ELDService:
                 })
             
             # Check for fuel stops
-            if trip_details['stops']['fuel_stops'] > 0 and hours_simulated % (total_duration / (trip_details['stops']['fuel_stops'] + 1)) < 1:
+            if trip_details['stops']['fuel_stops']["number_of_fuel_stops"] > 0 and hours_simulated % (total_duration / (trip_details['stops']['fuel_stops'] + 1)) < 1:
                 current_status = "ON"
                 current_log['events'].append({
                     "time": current_time.strftime("%H:%M"),

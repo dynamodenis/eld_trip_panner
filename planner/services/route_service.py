@@ -1,13 +1,13 @@
 import requests
-import json
-import polyline
 import math
+
+from decouple import config
 
 
 class RouteService:
     def __init__(self):
         # Using OpenRouteService free and alternative frim Google Maps
-        self.api_key = "5b3ce3597851110001cf62480daa8adef8134bfd9c80a94b60a9b1da"  # Get from https://openrouteservice.org/
+        self.api_key = config("OPEN_ROUTE_API")  # Get from https://openrouteservice.org/
         self.base_url = "https://api.openrouteservice.org/v2/directions/driving-hgv"
         self.thirty_min_rest_coordinates = None
         self.ten_hours_rest_coordinates = None

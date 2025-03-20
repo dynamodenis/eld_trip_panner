@@ -110,6 +110,7 @@ class RouteService:
         if "features" in route1 and route1["features"] and "properties" in route1["features"][0]:
             if "summary" in route1["features"][0]["properties"]:
                 duration1 = route1["features"][0]["properties"]["summary"]["duration"]
+                print(route1)
         
         # Check if route2 has the expected structure
         if "features" in route2 and route2["features"] and "properties" in route2["features"][0]:
